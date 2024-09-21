@@ -32,6 +32,18 @@ app.post('/form', async (c) => {
 })
 
 
+app.post('/file', async (c) => {
+  const form = await c.req.formData()
+  for (const [key, value] of form.entries()) {
+    if (value instanceof File) {
+      console.log(`${key}: name=${value.name} type=${value.type} content=${await value.text()}`)
+    } else {
+      console.log(`${key}: ${value}`)
+    }
+  }
+  return c.json({status: 'ok'})
+})
+
 
 const port = 3000
 console.log(`Server is running on port ${port}`)
